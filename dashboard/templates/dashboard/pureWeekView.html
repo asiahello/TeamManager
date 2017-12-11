@@ -1,0 +1,51 @@
+<section id="calendar-label">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto" >
+                <h3>
+                    Mój Plan Tygodnia {{ whole_week.0 | date:'d.m.Y' }} -  {{ whole_week.6 | date:'d.m.Y' }}
+                </h3>
+
+                <div class="row">
+
+                    {% if previous_week %}
+                        <div class="col-md-1">
+                            <a class="btn btn-sq" href="{% url 'dashboard:week' year=previous_week|date:'Y' week=previous_week|date:'W' %}">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% for day in whole_week %}
+                        <div class="col-md-1">
+                            <a class="btn btn-sq" data-toggle="collapse"
+                               href=".{{ day | date:'d-m-Y' }}" aria-expanded="false">
+                                {% cycle 'PN' 'WT' 'ŚR' 'CZW' 'PT' 'SO' 'ND' %} </a>
+                        </div>
+                    {% endfor %}
+                    {% resetcycle %}
+
+                    <div class="col-md-1">
+                        <a class="btn btn-sq" data-toggle="collapse" href=".multi-collapse" aria-expanded="false"> ALL </a>
+                    </div>
+
+                    {% if next_week %}
+                        <div class="col-md-1">
+                            <a class="btn btn-sq" href="{% url 'dashboard:week' year=next_week|date:'Y' week=next_week|date:'W' %}">
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% for event in events %}
+                    <div class="collapse multi-collapse {{ event.date | date:'d-m-Y' }}">
+                        {% include "trainings/event/detail.html" %}
+                    </div>
+                {% endfor %}
+                {% resetcycle %}
+
+            </div>
+        </div>
+    </div>
+</section>

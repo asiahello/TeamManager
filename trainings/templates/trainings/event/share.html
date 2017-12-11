@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block title %} Share a training {% endblock title %}
+
+{% block content %}
+    {% if sent %}
+        <h1>Email sent</h1>
+        <p> "{{training.title}}" sent by email. </p>
+    {% else %}
+        <h1> Share "{{training.title}}" by email</h1>
+
+        <!-- <form action="." method="post" accept-charset="utf-8">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" name="Send email">
+        </form> -->
+
+        {# Display a form #}
+
+        <form action="." method="post" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form layout="inline" %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+ {% endblock content %}

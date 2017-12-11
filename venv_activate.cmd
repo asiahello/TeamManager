@@ -1,0 +1,1 @@
+C:\Users\jbaj\Documents\virtualenvs\django_venv\Scripts\activate

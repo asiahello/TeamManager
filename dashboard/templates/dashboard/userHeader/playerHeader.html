@@ -1,0 +1,43 @@
+{% load staticfiles %}
+
+<div class="col-md-12">
+    <div class="row justify-content-center">
+
+            <div class="card text-white bg-dark mb-3 text-center" style="width: 150px; margin-left: 10px; margin-right: 10px;">
+                <div class="card-header">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="card-body">
+                    <img src="{% static 'kitku.jpg' %}" class="img-profile">
+                </div>
+            </div>
+
+        <a data-toggle="collapse" href=".my-data" aria-expanded="false">
+            <div class="card text-white bg-dark mb-3 text-center" style="width: 150px; margin-left: 10px; margin-right: 10px;">
+                <div class="card-header">Moge dane</div>
+                <div class="card-body">
+                    <i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                </div>
+            </div>
+        </a>
+
+        <div class="card text-white bg-dark mb-3 text-center" style="width: 150px;  margin-left: 10px; margin-right: 10px;">
+            <div class="card-header">Moje testy</div>
+            <div class="card-body">
+                <i class="fa fa-flag fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card text-white bg-dark mb-3 text-center" style="width: 150px;  margin-left: 10px; margin-right: 10px;">
+            <div class="card-header">Moje statystyki</div>
+            <div class="card-body">
+                <i class="fa fa-line-chart fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card text-white bg-dark mb-3 text-center" style="width: 150px;  margin-left: 10px; margin-right: 10px;">
+            <div class="card-header">Moje analizy</div>
+            <div class="card-body">
+                <i class="fa fa-flask fa-5x" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,26 @@
+{% load dashboard_extras %}
+
+{% block user_header %}
+    <header class="{{ header_style }} text-white">
+        <div class="container">
+            <div class="row">
+
+                {% if user|has_group:"Trenerzy" %}
+
+                    {% include "dashboard/userHeader/coachHeader.html" %}
+
+                {% elif user|has_group:"Zawodnicy" %}
+
+                    {% include "dashboard/userHeader/playerHeader.html" %}
+
+                {% endif %}
+
+            </div>
+        </div>
+    </header>
+{% endblock user_header %}
+
+{% block user_content %}
+    {% include 'dashboard/playerContent/playerData.html' %}
+{% endblock user_content %}
+

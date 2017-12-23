@@ -13,5 +13,3 @@ class CoachForm(ModelForm):
     class Meta:
         model = Coach
         fields = '__all__'
-
-# CoachFormSet = inlineformset_factory(Team, Coach, form=CoachForm, extra=1)

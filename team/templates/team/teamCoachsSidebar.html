@@ -1,6 +1,7 @@
 <li>
-    <a href="/team/{{ team.id }}">
-        <i class="fa fa-flag" aria-hidden="true"></i>
+    <a href="{% url 'team:team-detail' team.id %}">
+
+    <i class="fa fa-flag" aria-hidden="true"></i>
         Zawodniczki
     </a>
 </li>

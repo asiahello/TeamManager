@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+<div class="bg-dark" id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a href="#">
+{#                <img src="{% static 'kitku.jpg' %}" class="img-profile"/>#}
+{#                {{ user.first_name }} {{ user.last_name }}#}
+                {{ user.username }}
+            </a>
+        </li>
+
+        <li class="sidebar-brand"> Drużyny
+            <a href="{% url 'team:team-new' %}">
+                <i class="fa fa-plus" aria-hidden="true"></i></a>
+        </li>
+
+        <div id="teamMenuAccordion" data-children=".item">
+            {% for team in teams %}
+                <div class="item">
+                    <a data-toggle="collapse" data-parent="#teamMenuAccordion" href="#{{ team.id }}" aria-expanded="false" aria-controls="{{ team.id }}">{{ team }}</a>
+                    <div id="{{ team.id }}" class="collapse" role="tabpanel">
+                        {% include 'team/teamCoachsSidebar.html' %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <li class="sidebar-brand"> Zasoby </li>
+        <li>
+            <a href="#">
+                <i class="fa fa-database" aria-hidden="true"></i>
+                Baza ćwiczeń</a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa fa-database" aria-hidden="true"></i>
+                Baza Testów</a>
+        </li>
+    </ul>
+</div>

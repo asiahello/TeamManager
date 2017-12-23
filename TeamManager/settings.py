@@ -44,13 +44,11 @@ INSTALLED_APPS = [
 
     'trainings',
     'dashboard',
-    'users',
-    'main',
+    'user',
+    'team',
 
-    'bootstrap4',
     'django_tables2',
     'guardian',
-    'debug_toolbar',
 
     'allauth',
     'allauth.account',
@@ -82,8 +80,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # `allauth` needs this from django
-                'django.template.context_processors.request',
             ],
         },
     },
@@ -166,3 +162,10 @@ STATICFILES_FINDERS = [
     # STATIC_ROOT = (os.path.join(BASE_DIR, 'static_files/'))
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+
+
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'

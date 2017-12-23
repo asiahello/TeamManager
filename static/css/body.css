@@ -1,0 +1,22 @@
+header {
+    padding: 100px 0 30px;
+    height: 330px;
+}
+
+section {
+    padding: 100px 0;
+}
+
+.coachHeader {
+    background-color: #75B09C;
+}
+
+.playerHeader {
+    background-color: #b0a106;
+}
+
+.img-profile {
+    border: 7px solid #E0BE36;
+    width: 100px;
+    height: 100px;
+}

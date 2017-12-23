@@ -1,10 +1,12 @@
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.views.generic import RedirectView, WeekArchiveView
 
 from datetime import datetime, timedelta
 
 from trainings.models import Event
+
+from user.models import Player, Coach
 
 
 def week_range(year, week):
@@ -28,9 +30,6 @@ class DashboardRedirectView(RedirectView):
     # If False, then the query string is discarded. 
     # By default, query_string is False.
     query_string = True
-    # The name of the URL pattern to redirect to. 
-    # Reversing will be done using the same args and kwargs as are passed in for this view.
-    # pattern_name = 'trainings:training-week'
 
     def get_redirect_url(self):
         year = str(datetime.today().year)
@@ -38,12 +37,13 @@ class DashboardRedirectView(RedirectView):
         user = self.request.user
 
         if user.is_authenticated:
-            # if is both:
-            if user.groups.filter(name="Trenerzy").exists():
+            # TODO what if is both:
+            if hasattr(user, 'coach'):
                 return reverse('dashboard:coach-week', args=(year, week))
-            elif user.groups.filter(name="Zawodnicy").exists():
+            elif hasattr(user, 'player'):
                 return reverse('dashboard:player-week', args=(year, week))
-            # else
+        else:
+            return reverse_lazy('account_login')
 
 
 class CoachDashboardWeekArchiveView(WeekArchiveView):
@@ -65,6 +65,8 @@ class CoachDashboardWeekArchiveView(WeekArchiveView):
         context['whole_week'] = week_range(self.kwargs['year'], self.kwargs['week'])
         context['header_style'] = "coachHeader"
         context['role'] = "coach"
+        context['players'] = Player.objects.all()
+        context['coaches'] = Coach.objects.all()
         return context
 
 

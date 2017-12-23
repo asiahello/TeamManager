@@ -17,11 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^main/', include('main.urls', namespace='main', app_name='main')),
 
     url(r'^accounts/', include('allauth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^trainings/', include('trainings.urls', namespace='trainings', app_name='trainings')),
     url(r'^dashboard/', include('dashboard.urls', namespace='dashboard', app_name='dashboard')),
+    url(r'^user/', include('user.urls', namespace='user', app_name='user')),
+    url(r'^team/', include('team.urls', namespace='team', app_name='team')),
 
 ]

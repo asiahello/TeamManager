@@ -12,7 +12,8 @@
 
         <li class="sidebar-brand"> Drużyny
             <a href="{% url 'team:team-new' %}">
-                <i class="fa fa-plus" aria-hidden="true"></i></a>
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
         </li>
 
         <div id="teamMenuAccordion" data-children=".item">
@@ -20,7 +21,7 @@
                 <div class="item">
                     <a data-toggle="collapse" data-parent="#teamMenuAccordion" href="#{{ team.id }}" aria-expanded="false" aria-controls="{{ team.id }}">{{ team }}</a>
                     <div id="{{ team.id }}" class="collapse" role="tabpanel">
-                        {% include 'team/teamCoachsSidebar.html' %}
+                        {% include 'user/coach/coach_sidebar_team.html' %}
                     </div>
                 </div>
             {% endfor %}

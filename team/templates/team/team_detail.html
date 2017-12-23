@@ -1,41 +1,85 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block user_sidebar %}
-    {% include 'user/coachSidebar.html' with teams=teams %}
-{% endblock user_sidebar %}
 
 {% block user_content %}
-    <h1>{{ team.name }}</h1>
 
-    <form action="{% url 'team:team-delete' team.id %}" method="POST" style="display: inline">
-        {% csrf_token %}
-        <input type="hidden" name="team_id" value="{{team.id}}"/>
-        <button type="submit" class="btn btn-default btn-danger" >
-            <i class="fa fa-trash" aria-hidden="true"></i>
-        </button>
-    </form>
+    <div class="card">
+        <div class="card-header">
+            <h4 style="display: inline"> {{ team.name }}</h4>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Imię i nazwisko</th>
-            <th scope="col">username</th>
-            <th scope="col">Pozycja </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for player in team.playersInTeam.all %}
-            <tr>
-                <td> {{ forloop.counter }}</td>
-                <td>{{ player.user.first_name }} {{ player.user.last_name }}</td>
-                <td> {{ player.user.username }}</td>
-                <td> {{ player.position }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <form action="{% url 'team:team-delete' team.id %}" method="POST" style="display: inline">
+                {% csrf_token %}
+                <input type="hidden" name="team_id" value="{{team.id}}"/>
+                <button type="submit" class="btn btn-default btn-danger" >
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete Team
+                </button>
+            </form>
+
+            <a href="{% url 'user:player-new' %}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Dodaj zawodnika
+            </a>
+
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title">Special title treatment</h4>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Imię i nazwisko</th>
+                    <th scope="col">username</th>
+                    <th scope="col">Pozycja </th>
+                    <th scope="col">Edytuj </th>
+                    <!-- TODO nie potrzeba tak na wierzchu -->
+                    <th scope="col">Usuń </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for player in team.playersInTeam.all %}
+                    <tr>
+                        <td> {{ forloop.counter }}</td>
+                        <td>{{ player.user.first_name }} {{ player.user.last_name }}</td>
+
+                        <td>
+                            <a href="{% url 'user:player-detail' player.id %}">
+                                {{ player.user.username }}
+                            </a>
+                        </td>
+
+                        <td> {{ player.position }}</td>
+                        <td>
+                            <form action="{% url 'user:player-delete' player.id %}" method="POST" style="display: inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="player_id" value="{{player.id}}"/>
+                                <button type="submit" class="btn btn-default btn-danger" >
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{% url 'user:player-delete' player.id %}" method="POST" style="display: inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="player_id" value="{{player.id}}"/>
+                                <button type="submit" class="btn btn-default btn-danger" >
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+
 
 {% endblock user_content %}
 

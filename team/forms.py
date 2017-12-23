@@ -1,5 +1,4 @@
-from django.forms import ModelForm, ModelMultipleChoiceField
-from django.forms.models import inlineformset_factory
+from django.forms import ModelForm
 
 from .models import Team
 from user.models import Coach

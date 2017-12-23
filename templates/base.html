@@ -28,9 +28,13 @@
         {% include 'navbar.html' %}
 
         <div id="wrapper">
-
-            {% block user_sidebar %}
-            {% endblock user_sidebar %}
+            {% if user.is_authenticated %}
+                {% if user.coach %}
+                    {% include 'user/coach/coach_sidebar.html' with teams=user.coach.teams.all %}
+                {% endif %}
+            {% else %}
+                <h3> not authenticated</h3>
+            {% endif %}
 
             <div id="page-content-wrapper">
 

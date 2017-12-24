@@ -42,7 +42,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for player in team.playersInTeam.all %}
+                {% for player in team.players.all %}
                     <tr>
                         <td> {{ forloop.counter }}</td>
                         <td>{{ player.user.first_name }} {{ player.user.last_name }}</td>

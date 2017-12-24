@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} Trainings week list {% endblock title %}
+
+{% block user_content %}
+
+    <h4 style="display: inline"> Treningi dru?yny {{ team_name }}</h4>
+
+
+{#            <form action="{% url 'team:team-delete' team.id %}" method="POST" style="display: inline">#}
+{#                {% csrf_token %}#}
+{#                <input type="hidden" name="team_id" value="{{team.id}}"/>#}
+{#                <button type="submit" class="btn btn-default btn-danger" >#}
+{#                    <i class="fa fa-trash" aria-hidden="true"></i>#}
+{#                    Delete Team#}
+{#                </button>#}
+{#            </form>#}
+
+    <a href="{% url 'trainings:training-new' team_id %}">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Dodaj trening
+    </a>
+
+    <hr/>
+
+    <div class="row">
+
+        {% for day in seven_days %}
+
+            <div class="col">
+
+                <div class="card">
+
+                    <div class="card-header text-center">
+                        {{ day | date:'l' }}<br/>
+                        {{ day | date:'d.m.Y' }}
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+
+                        {% for hour in hour_range %}
+                            <li class="list-group-item" style="height: 50px">
+
+                                {% for training in trainings %}
+                                    {% if training.date|date:'d.m.Y' ==  day|date:'d.m.Y' and training.date.hour ==  hour %}
+                                        <a href="#{{ training.id }}" data-toggle="modal">
+                                            {{ training.date|date:'G:i' }} - {{ training.place }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% for training in trainings %}
+        {% include "trainings/training_detail_modal.html" with event=training %}
+    {% endfor %}
+
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+
+{% endblock %}

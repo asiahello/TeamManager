@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} Trainings week list {% endblock title %}
+
+{% block user_content %}
+    <div class="col-lg-12" >
+        {% for training in trainings %}
+            {{ training.title }}
+            <hr/>
+            {% include "trainings/event/detail.html" with event=training %}
+        {% endfor %}
+    </div>
+{% endblock %}

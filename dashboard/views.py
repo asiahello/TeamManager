@@ -57,7 +57,7 @@ class CoachDashboardWeekArchiveView(WeekArchiveView):
     def get_queryset(self):
         user = self.request.user
         # TODO i to tylko z tego tygodnia
-        my_trainings = Event.trainings.filter(Q(author=user) | Q(performer=user))
+        my_trainings = Event.trainings.filter(Q(author=user.coach) | Q(performer=user.coach))
         return my_trainings
 
     def get_context_data(self, **kwargs):

@@ -32,8 +32,6 @@
                 {% if user.coach %}
                     {% include 'user/coach/coach_sidebar.html' with teams=user.coach.teams.all %}
                 {% endif %}
-            {% else %}
-                <h3> not authenticated</h3>
             {% endif %}
 
             <div id="page-content-wrapper">

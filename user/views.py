@@ -8,7 +8,7 @@ from .forms import PlayerForm
 def user_is_coach_and_has_player(user, player):
     if user.is_authenticated:
         if hasattr(user, 'coach'):
-            if player.team.coaches.filter(id=user.coach.id).exists():
+            if player.teams.all().get().coaches.filter(id=user.coach.id).exists():
                 return True
 
 
@@ -46,7 +46,7 @@ def player_new(request):
             form = PlayerForm(request.POST)
             if form.is_valid():
                 new_player = form.save()
-                return redirect('user:player-detail', team_id=new_player.pk)
+                return redirect('training-team-list', team_id=new_player.pk)
         else:
             form = PlayerForm()
         return render(request, template, {'form': form, })

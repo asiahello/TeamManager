@@ -6,7 +6,6 @@ from team.models import Team, Club
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='player')
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, verbose_name="druzyna", null=True, related_name='playersInTeam')
     position = models.CharField(max_length=20, verbose_name="pozycja")
 
     def __str__(self):

@@ -1,9 +1,10 @@
+from datetime import timedelta
+from team.models import Team
+from user.models import Coach, Player
+
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse
-
-from .exercise import Exercise
-from user.models import Coach, Player
 
 
 class TrainingManager(models.Manager):
@@ -14,6 +15,12 @@ class TrainingManager(models.Manager):
 class MatchManager(models.Manager):
     def get_queryset(self):
         return super(MatchManager, self).get_queryset().filter(type='match')
+
+
+class EventManager(models.Manager):
+    def week_for_team(self, team_id, seven_days):
+        team = Team.objects.prefetch_related('trainings').get(id=team_id)
+        return super(EventManager, self).get_queryset().filter(team=team).filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
 
 
 class Event(models.Model):
@@ -95,7 +102,7 @@ class Event(models.Model):
 
     # exercises = models.ManyToManyField(Exercise) #, related_name='intro_part_related_name')
 
-    objects = models.Manager()  # default manager
+    objects = EventManager()
     trainings = TrainingManager()  # returns only trainings
     matches = MatchManager()
 

@@ -1,14 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime, timedelta
 
-from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from trainings.models import Event, Comment
-from .forms import EmailEventForm, CommentForm, TrainingForm
+from trainings.models import Event
+
+from .forms import CommentForm, EmailEventForm, TrainingForm
+from user.models import Coach
 
 
-def week_range(year, week):
+def get_week_range(year, week):
     whole_week = []
 
     d = year + "-" + "W" + week
@@ -23,6 +26,7 @@ def week_range(year, week):
     return whole_week
 
 
+# TODO do it simpler only min max
 def get_hours_range(trainings):
     min_hour = 24
     max_hour = 0
@@ -40,9 +44,9 @@ def matches_list(request):
     return render(request, 'trainings/event/list.html', {'events': matches})
 
 
-def training_detail(request, event_id):
+def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-
+    template = 'trainings/event/detail.html'
     comments = event.comments.filter(active=True)
 
     if request.method == 'POST':
@@ -55,7 +59,13 @@ def training_detail(request, event_id):
     else:
         comment_form = CommentForm()
 
-    return render(request, 'trainings/event/detail.html', {'event': event, 'comments': comments, 'comment_form': comment_form})
+    context = {
+        'event': event,
+        'comments': comments,
+        'comment_form': comment_form
+    }
+
+    return render(request, template, context)
 
 
 def training_share(request, event_id):
@@ -79,64 +89,65 @@ def training_share(request, event_id):
     return render(request, 'trainings/event/share.html', {'training': training, 'form': form, 'sent': sent})
 
 
-def get_this_week(request, team_id):
+def event_team_week_list(request, team_id, year, week):
     template = 'trainings/training_team_list_view.html'
-
-    year = str(datetime.today().year)
-    week = str(datetime.today().isocalendar()[1])
-
     user = request.user
-    seven_days = week_range(year, week)
-    trainings = user.coach.teams.filter(id=team_id).get().trainings.filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
-    min_hour, max_hour = get_hours_range(trainings)
 
-    context = {
-        'trainings': trainings,
-        'seven_days': seven_days,
-        'team_id': team_id,
-        'team_name': user.coach.teams.filter(id=team_id).get().name,
-        'hour_range': range(min_hour, max_hour)
-    }
+    if user.is_authenticated and hasattr(user, 'coach'):
+        seven_days = get_week_range(str(year), str(week))
+        trainings = Event.objects.week_for_team(team_id, seven_days)
+        min_hour, max_hour = get_hours_range(trainings)
 
-    return render(request, template, context)
+        context = {
+            'trainings': trainings,
+            'seven_days': seven_days,
+            'team_id': team_id,
+            'team_name': user.coach.teams.filter(id=team_id).get().name,
+            'hour_range': range(min_hour, max_hour),
+            'previous_start_week': seven_days[0] - timedelta(days=7),
+            'next_start_week': seven_days[0] + timedelta(days=7)
+        }
 
-
-def training_team_week_list(request, team_id, year, week):
-    user = request.user
-    seven_days = week_range(year, week)
-    trainings = user.coach.teams.filter(id=team_id).get().trainings.filter(date__range=[seven_days[0], seven_days[6]])
-
-    return render(request, 'trainings/trainings_week_view.html', {'trainings': trainings, 'seven_days': seven_days, })
+        return render(request, template, context)
+    else:
+        return HttpResponse("<h1> Brak dost?pu </h1>")
 
 
 def training_new(request, team_id):
     template = 'trainings/training_edit.html'
     user = request.user
-    teams_queryset = user.coach.teams.all()
+    year = datetime.today().year
+    week = datetime.today().isocalendar()[1]
 
     if user.is_authenticated and hasattr(user, 'coach'):
+        coach = request.user.coach
+        team = coach.teams.filter(id=team_id).get()
+
         if request.method == "POST":
             form = TrainingForm(request.POST)
+
             if form.is_valid():
-                print("valid")
                 new_training = form.save(commit=False)
-                new_training.author = user.coach
+                new_training.author = coach
+                new_training.team = team
                 new_training.save()
                 new_training.participants = new_training.team.players.all()
                 new_training.save()
-                return redirect('trainings:training-team-list', team_id=team_id)
+                return redirect('trainings:event-team-week-list', team_id=team_id, year=year, week=week)
             else:
-                return redirect('trainings:training-team-list', team_id=team_id)
+                return redirect('trainings:event-team-week-list', team_id=team_id, year=year, week=week)
         else:
-            form = TrainingForm(teams=teams_queryset)
-
-        return render(request, template, {'form': form, })
+            form = TrainingForm(initial={
+                'performer': Coach.objects.from_one_club(team.club.id).distinct(),
+            })
+            return render(request, template, {'form': form, })
 
 
 def training_delete(request, event_id, team_id):
-    user = request.user
+    year = datetime.today().year
+    week = datetime.today().isocalendar()[1]
     training = get_object_or_404(Event, id=event_id)
 
     if request.method =='POST':
         training.delete()
-        return redirect('trainings:training-team-list', team_id=team_id)
+        return redirect('trainings:event-team-week-list', team_id=team_id, year=year, week=week)

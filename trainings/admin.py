@@ -1,5 +1,6 @@
 from django.contrib import admin
-from trainings.models import Event, Comment, Exercise, AgeCategory
+
+from trainings.models import AgeCategory, Comment, Event, Exercise
 
 # Register your models here.
 

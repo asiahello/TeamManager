@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 
-
 # COACHES
 
 User.objects.create_user("c1_t12_c1", "c1_t12_c1@tm.com", "zaq12wsx")

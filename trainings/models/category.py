@@ -1,9 +1,6 @@
 from django.db import models
 
 
-
-
-
 class TrainingCategory(models.Model):
 
     CAT = (

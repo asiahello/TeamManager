@@ -1,7 +1,9 @@
+from user.models import Coach
+
 from django.forms import ModelForm
 
 from .models import Team
-from user.models import Coach
+
 
 class TeamForm(ModelForm):
     class Meta:

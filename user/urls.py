@@ -1,4 +1,5 @@
 from django.conf.urls import url
+
 from . import views
 
 urlpatterns = [
@@ -12,5 +13,3 @@ urlpatterns = [
     # url(r'^coach/$', views.coach_view, name='coachView'),
     # url(r'^player/$', views.PlayerView.as_view(), name='playerView'),
 ]
-
-

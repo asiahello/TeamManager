@@ -3,10 +3,23 @@
 
 {% block title %} Trainings week list {% endblock title %}
 
+
+{# TODO ensure user is coach #}
+
 {% block user_content %}
 
-    <h4 style="display: inline"> Treningi dru?yny {{ team_name }}</h4>
 
+    <h4 style="display: inline"> Treningi dru?yny {{ team_name }} </h4>
+
+    <a href="{% url 'trainings:event-team-week-list' team_id=team_id year=previous_start_week|date:"Y" week=previous_start_week|date:"W" %}">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        poprzedni tydzien
+    </a>
+
+    <a href="{% url 'trainings:event-team-week-list' team_id=team_id year=next_start_week|date:"Y" week=next_start_week|date:"W" %}">
+        nastepny tydzien
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
 
 {#            <form action="{% url 'team:team-delete' team.id %}" method="POST" style="display: inline">#}
 {#                {% csrf_token %}#}
@@ -26,8 +39,6 @@
 
     <div class="row">
 
-        {% load tz %}
-
         {% for day in seven_days %}
 
             <div class="col">
@@ -46,6 +57,7 @@
                                 <a href="#{{ training.id }}" data-toggle="modal">
                                     {{ training.date|date:'G:i' }} - {{ training.place }}
                                 </a>
+                                <hr/>
                             {% endif %}
                         {% endfor %}
                     </div>

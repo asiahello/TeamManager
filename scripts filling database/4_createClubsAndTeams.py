@@ -1,6 +1,8 @@
-from django.contrib.auth.models import User
-from team.models import Club, Team
 from user.models import Coach, Player
+
+from django.contrib.auth.models import User
+
+from team.models import Club, Team
 
 _manager = User.objects.filter(username='jbaj').get()
 

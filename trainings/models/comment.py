@@ -1,6 +1,7 @@
 from django.db import models
 
 from . import Event
+
 # from trainings.models.event import Event
 
 

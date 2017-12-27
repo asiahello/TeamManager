@@ -4,89 +4,59 @@
 
 {% block user_content %}
 
-    <h1>Nowy trening</h1>
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
-
-
-
 
 {#    <form method="POST" class="post-form">#}
 {#        {% csrf_token %}#}
-{#    #}
-{#        {% for hidden_field in form.hidden_fields %}#}
-{#            {{ hidden_field }}#}
-{#        {% endfor %}#}
-{##}
-{#        {% for field in form.visible_fields %}#}
-{#            <div class="form-group row">#}
-{##}
-{#                <label class="col-form-label">{{ field.label_tag }}</label>#}
-{#                <div class="col-lg-6">#}
-{#                    {{ field }}#}
-{#                </div>#}
-{##}
-{#                {% if field.help_text %}#}
-{#                    <small class="form-text text-muted">{{ field.help_text }}</small>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#        {% endfor %}#}
+{#        {{ form.as_p }}#}
 {#        <button type="submit" class="save btn btn-default">Save</button>#}
 {#    </form>#}
 
 
 
 
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>Nowy trening</h2>
+            <hr/>
+        </div>
+    </div>
 
+    <form method="POST" class="post-form form-horizontal">
+        {% csrf_token %}
 
-{#    <div class="row">#}
-{#        <div class="col-md-3"></div>#}
-{#        <div class="col-md-6">#}
-{#            <h2>{% trans "Add training" %}</h2>#}
-{#            <hr/>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <form method="POST" class="post-form form-horizontal">#}
-{##}
-{#        {% csrf_token %}#}
-{##}
-{#        {% for hidden_field in form.hidden_fields %}#}
-{#            {{ hidden_field }}#}
-{#        {% endfor %}#}
-{##}
-{#        {% for field in form.visible_fields %}#}
-{##}
-{#            <div class="row"> <div class="col-md-3"></div>#}
-{#                <div class="col-md-6">#}
-{#                    <div class="form-group">#}
-{#                        <label class="col-form-label">{{ field.label_tag }}</label>#}
-{#                        <div class="mb-2 mr-sm-2 mb-sm-0">#}
-{#                            {{ field }}#}
-{#                        </div>#}
-{##}
-{#                        {% if field.help_text %}#}
-{#                            <small class="form-text text-muted">{{ field.help_text }}</small>#}
-{#                        {% endif %}#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{##}
-{#        {% endfor %}#}
-{##}
-{#        <div class="row" style="padding-top: 1rem">#}
-{#            <div class="col-md-3"></div>#}
-{#            <div class="col-md-6">#}
-{#                <button type="submit" class="save btn btn-success">#}
-{#                <i class="fa fa-sign-in"></i>#}
-{#                Save</button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </form>#}
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+
+            <div class="row"> <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">{{ field.label_tag }}</label>
+                        <div class="mb-2 mr-sm-2 mb-sm-0">
+                            {{ field }}
+                        </div>
+
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+        <div class="row" style="padding-top: 1rem">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <button type="submit" class="save btn btn-success">
+                <i class="fa fa-sign-in"></i>
+                Save</button>
+            </div>
+        </div>
+    </form>
 
 {% endblock user_content %}
 

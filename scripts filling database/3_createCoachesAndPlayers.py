@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User
 from user.models import Coach, Player
+
+from django.contrib.auth.models import User
 
 Coach.objects.get_or_create(user=User.objects.filter(username="c1_t12_c1").get(), licence="UEFA")
 Coach.objects.get_or_create(user=User.objects.filter(username="c2_t23_c1").get(), licence="UEFA")

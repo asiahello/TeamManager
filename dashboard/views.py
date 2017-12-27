@@ -1,12 +1,11 @@
-from django.urls import reverse, reverse_lazy
+from datetime import datetime, timedelta
+from user.models import Coach, Player
+
 from django.db.models import Q
+from django.urls import reverse, reverse_lazy
 from django.views.generic import RedirectView, WeekArchiveView
 
-from datetime import datetime, timedelta
-
 from trainings.models import Event
-
-from user.models import Player, Coach
 
 
 def week_range(year, week):

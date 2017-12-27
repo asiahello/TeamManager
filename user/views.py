@@ -1,14 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Player, Coach
 from .forms import PlayerForm
+from .models import Coach, Player
 
 
 def user_is_coach_and_has_player(user, player):
     if user.is_authenticated:
         if hasattr(user, 'coach'):
-            if player.teams.all().get().coaches.filter(id=user.coach.id).exists():
+            if Coach.objects.train_player(player.id).exists():
                 return True
 
 
@@ -54,10 +54,16 @@ def player_new(request):
 
 def player_delete(request, player_id):
     player = get_object_or_404(Player, id=player_id)
+    user = request.user
 
-    # TODO sprawdzic czy na pewno nie potrzeba zabezpieczenia
-    if request.method == 'POST':
-        player.delete()
-        return redirect('team:team-detail')
+    if user_is_coach_and_has_player(user, player):
+        if request.method == 'POST':
+            player.delete()
+            return redirect('team:team-detail')
+        else:
+            return HttpResponse("<h1> Brak dost?pu </h1>")
     else:
         return HttpResponse("<h1> Brak dost?pu </h1>")
+
+
+

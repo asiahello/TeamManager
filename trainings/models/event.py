@@ -1,5 +1,5 @@
 from datetime import timedelta
-from team.models import Team
+from django.db.models import Q
 from user.models import Coach, Player
 
 from django.core.urlresolvers import reverse
@@ -18,9 +18,17 @@ class MatchManager(models.Manager):
 
 
 class EventManager(models.Manager):
+
     def week_for_team(self, team_id, seven_days):
-        team = Team.objects.prefetch_related('trainings').get(id=team_id)
-        return super(EventManager, self).get_queryset().filter(team=team).filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
+        # team = Team.objects.prefetch_related('trainings').get(id=team_id)
+        return super(EventManager, self).get_queryset().filter(team__id=team_id).filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
+
+    def week_for_player(self, user_id, seven_days):
+        # team = Team.objects.prefetch_related('trainings').get(id=team_id)
+        return super(EventManager, self).get_queryset().filter(participants__user__id__contains=user_id).filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
+
+    def week_for_coach(self, user_id, seven_days):
+        return super(EventManager, self).get_queryset().filter(performer__user__id=user_id).filter(date__range=[seven_days[0], seven_days[6]+timedelta(1)])
 
 
 class Event(models.Model):
@@ -64,11 +72,11 @@ class Event(models.Model):
         blank=True,
         default=""
     )
-    performer = models.ForeignKey(
+    performer = models.ManyToManyField(
         Coach,
         related_name='trainings_performed',
         verbose_name="Wykonawca",
-        on_delete=models.SET_NULL,
+        # on_delete=models.SET_NULL,
         null=True,
         blank=True,
         default=""

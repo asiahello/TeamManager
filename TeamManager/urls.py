@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-
+import team
 urlpatterns = [
 
+# nie wszystko musi byc w glownym, mozna pozagniezdzac jak swot
+
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^messages/', include('postman.urls', namespace='postman', app_name='postman')),
     url(r'^admin/', admin.site.urls),
     url(r'^trainings/', include('trainings.urls', namespace='trainings', app_name='trainings')),
-    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard', app_name='dashboard')),
-    url(r'^user/', include('user.urls', namespace='user', app_name='user')),
     url(r'^team/', include('team.urls', namespace='team', app_name='team')),
 
+    url(r'^', include('user.urls', namespace='user', app_name='user')),
 ]
+

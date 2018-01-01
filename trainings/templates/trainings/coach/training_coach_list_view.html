@@ -3,33 +3,29 @@
 
 {% block title %} Trainings week list {% endblock title %}
 
+{% block user_navbar %}
+    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Components</span>
+        </a>
+        <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+                <a href="navbar.html">Navbar</a>
+            </li>
+            <li>
+                <a href="cards.html">Cards</a>
+            </li>
+        </ul>
+    </li>
+{% endblock user_navbar %}
+
+
 {% block user_content %}
-
-    <h4 style="display: inline"> Treningi dru?yny {{ team_name }}</h4>
-
-
-{#            <form action="{% url 'team:team-delete' team.id %}" method="POST" style="display: inline">#}
-{#                {% csrf_token %}#}
-{#                <input type="hidden" name="team_id" value="{{team.id}}"/>#}
-{#                <button type="submit" class="btn btn-default btn-danger" >#}
-{#                    <i class="fa fa-trash" aria-hidden="true"></i>#}
-{#                    Delete Team#}
-{#                </button>#}
-{#            </form>#}
-
-    <a href="{% url 'trainings:training-new' team_id %}">
-        <i class="fa fa-plus" aria-hidden="true"></i>
-        Dodaj trening
-    </a>
-
-    <hr/>
-
     <div class="row">
 
         {% for day in seven_days %}
-
             <div class="col">
-
                 <div class="card">
 
                     <div class="card-header text-center">
@@ -63,10 +59,10 @@
     </div>
 
     {% for training in trainings %}
-        {% include "trainings/training_detail_modal.html" with event=training %}
+        {% include "trainings/coach/training_coach_detail_modal.html" with event=training %}
     {% endfor %}
 
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+{#            <a href="#" class="btn btn-primary">Go somewhere</a>#}
 
 
 {% endblock %}

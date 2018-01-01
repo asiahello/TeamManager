@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %} Trainings week list {% endblock title %}
+
+{% block user_content %}
+
+    <div class="row">
+        <div class="col-lg-4 col-sm-12 text-left">
+            <a class="btn btn-primary" href="{% url 'trainings:event-user-week-list' year=previous_start_week|date:"Y" week=previous_start_week|date:"W" %}">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                poprzedni tydzien
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-center">
+            <h4 style="display: inline"> Treningi {{ user.first_name }} {{ user.last_name }} </h4>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-right">
+            <a class="btn btn-primary" href="{% url 'trainings:event-user-week-list' year=next_start_week|date:"Y" week=next_start_week|date:"W" %}">
+            nastepny tydzien
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        {% for day in seven_days %}
+            <div class="col">
+
+                <div class="card">
+                    <div class="card-header text-center">
+                        {{ day | date:'l' }}<br/>
+                        {{ day | date:'d.m.Y' }}
+                    </div>
+                    {% for training in trainings %}
+                        {% if training.date|date:'d.m.Y' ==  day|date:'d.m.Y' %}
+                            <div class="card-body text-center" style="min-height: 70px">
+                                <a href="#{{ training.id }}" data-toggle="modal">
+                                    {{ training.date|date:'G:i' }} <br/>
+                                    - <br>
+                                    {{ training.place }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4 style="display: inline"> Notatki z tego tygodnia </h4>
+        </div>
+
+        {% for comment in comments %}
+            <div class="col-lg-10 offset-lg-1 col-sm-12">
+                <p class="info">{{ forloop.counter }}. {{ comment.body }} </p>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    {% for training in trainings %}
+        {% include "trainings/player/training_player_detail_modal.html" with event=training %}
+    {% endfor %}
+
+{% endblock %}

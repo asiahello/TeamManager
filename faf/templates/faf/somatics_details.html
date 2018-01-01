@@ -1,0 +1,25 @@
+{% load staticfiles jchart %}
+
+<div class="row text-center">
+    <h3>Parametry somatyczne</h3>
+
+    <a href="{% url 'user:faf:somatics-create' %}">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Dodaj nowe
+    </a>
+</div>
+
+<div class="row text-center">
+    <div class="col-lg-4">
+        <h4>WAGA</h4>
+        {% render_chart somatics_chart player.id "weight" %}
+    </div>
+    <div class="col-lg-4">
+        <h4>% TKANKI TŁUSZCZOWEJ</h4>
+        {% render_chart somatics_chart player.id "fat" %}
+    </div>
+    <div class="col-lg-4">
+        <h4>BMI </h4>
+        {% render_chart somatics_chart player.id "bmi" %}
+    </div>
+</div>

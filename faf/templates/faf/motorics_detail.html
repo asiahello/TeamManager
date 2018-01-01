@@ -1,0 +1,30 @@
+{% load render_table from django_tables2 %}
+
+<div class="row text-center">
+    <h3>Parametry motoryczne</h3>
+
+    <a href="{% url 'user:faf:motorics-create' %}">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Dodaj nowe
+    </a>
+</div>
+
+<div class="row text-center">
+    <div class="col-lg-3">
+        <h4>SIŁA</h4>
+        {% render_table strength_table %}
+        {{ test }}
+    </div>
+    <div class="col-lg-3">
+        <h4>WYTRZYMAŁOŚĆ</h4>
+        {% render_table endurance_table %}
+    </div>
+    <div class="col-lg-3">
+        <h4>SZYBKOŚĆ</h4>
+        {% render_table velocity_table %}
+    </div>
+    <div class="col-lg-3">
+        <h4>KOORDYNACJA</h4>
+        {% render_table coordination_table %}
+    </div>
+</div>

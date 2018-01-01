@@ -6,7 +6,7 @@ from trainings.models import AgeCategory, Comment, Event, Exercise
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'author', 'performer')
+    list_display = ('title', 'date', 'author')
     list_filter = ('date', 'author', 'performer')
     search_fields = ('title', )
     # prepopulated_fields = {'slug': ('title',)}  # slug -> tiltle 
@@ -19,9 +19,9 @@ admin.site.register(Event, EventAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'event', 'created', 'active')
-    list_filter = ('active', 'created', 'updated')
-    search_fields = ('name', 'email', 'body')
+    list_display = ('event', 'created', 'author',)
+    list_filter = ('created',)
+    search_fields = ('email', 'body')
     ordering = ['created']
 
 

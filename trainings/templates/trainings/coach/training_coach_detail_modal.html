@@ -1,0 +1,88 @@
+<div class="modal fade" id="{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ event.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4> {{event.date | date:"D, d.m.Y G:i" }}, {{ event.place }} </h4>
+                <h6 class="text-muted text-right"> autor {{ event.author }}</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+            <!-- EVENT DETAIL -->
+                <h4>  {{ event.title }}, {{ event.duration }}min </h4>
+
+                <p>Treść treningu <br/> {{ event.content | linebreaks }} <hr/> </p>
+
+            <!-- EVENT PARTICIPANTS -->
+
+                <p>Uczestnicy</p>
+
+                <ul>
+                    {% for player in event.team.players.all %}
+                        <li> {{ player.user.first_name }} {{ player.user.last_name }}</li>
+                    {% endfor %}
+
+
+
+                    {% for participant in event.participants.all %}
+                        <li>{{ participant.user.username }}</li>
+                    {% endfor %}
+                </ul>
+
+            <!-- EVENT COMMENTS -->
+
+                {% with comments.count as total_comments %}
+                    <h2> {{ total_comments }} comment{{ total_comments | pluralize }} </h2>
+                {% endwith %}
+
+                {% for comment in comments %}
+                    <div class="comment">
+                        <p class="info"> Comment{{ forloop.counter }} by {{ comment.author }} {{ comment.created }} </p>
+                        {{ comment.body|linebreaks }}
+                    </div>
+                {% empty %}
+                    <p> There is no comment yet.</p>
+                {% endfor %}
+
+                {% if new_comment %}
+                    <h2>Your comment has been added. </h2>
+                {% else %}
+                    <h2>Add a new comment </h2>
+                    <form action="." method="post"> {% csrf_token %}
+
+                        {{ comment_form.as_p }}
+                        <input type="hidden" name="event_id" value="{{ event.id }}">
+
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
+                {% endif %}
+
+
+
+
+                <!-- <a class="btn btn-primary" href="{-% url "trainings:training_share" event.id %-}"> Share this training</a> -->
+                <!-- {-{ event.content | truncatewords:30 | linebreaks }-} -->
+            </div>
+            <div class="modal-footer">
+
+                {% if team_id %}
+                    <form action="{% url 'trainings:training-delete' team_id event.id %}" method="POST" style="display: inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="event_id" value="{{ event.id }}"/>
+                        <button type="submit" class="btn btn-default btn-danger" >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+{#                  <button type="button" class="btn btn-primary">Save changes</button>#}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>

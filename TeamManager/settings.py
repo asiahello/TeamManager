@@ -27,9 +27,9 @@ DEBUG = True
 
 SITE_ID = 1
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.7']
 
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -43,18 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'trainings',
-    'dashboard',
     'user',
     'team',
-
-    'django_tables2',
-    'guardian',
+    'swot',
+    'faf',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # 'allauth.socialaccount.providers.facebook',
-
+    'django_tables2',
+    'guardian',
+    'jchart',
+    'postman',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -80,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'postman.context_processors.inbox',
             ],
         },
     },
@@ -164,8 +166,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
 # ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
+
+
+POSTMAN_AUTO_MODERATE_AS = True

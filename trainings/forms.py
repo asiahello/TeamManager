@@ -12,8 +12,6 @@ class EmailEventForm(forms.Form):
 
 class TrainingForm(forms.ModelForm):
 
-    x = {}
-
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
         initial = kwargs.get('initial')
@@ -21,15 +19,20 @@ class TrainingForm(forms.ModelForm):
             self.fields['performer'].queryset = initial.get('performer')
 
     class Meta:
-                model = Event
-                exclude = ['author', 'participants', 'team']
-                fields = '__all__'
-                # widgets = {
-                #     # 'title': Textarea(attrs={'cols': 80, 'rows': 20}),
-                # }
+        model = Event
+        exclude = ['author', 'participants', 'team']
+        fields = '__all__'
+        # widgets = {
+        #     # 'title': Textarea(attrs={'cols': 80, 'rows': 20}),
+        # }
 
 
 class CommentForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        # self.fields['event'].initial = kwargs.pop('arg', None)
+
     class Meta:
         model = Comment
-        fields = ('name', 'email', 'body')
+        exclude = ['author', 'event']

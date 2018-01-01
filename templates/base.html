@@ -11,74 +11,37 @@
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
-        <!-- Custom styles for this template -->
-        <link href="{% static 'css/body.css' %}" rel="stylesheet">
-        <link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-        {% block extra_head %}            
-        {% endblock extra_head %}
+        <!-- Page level plugin CSS-->
+        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+        <!-- Custom styles for this template-->
+        <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+        {% block extrahead %}
+        {% endblock extrahead %}
         
     </head>
 
-    <body id="page-top">
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 
         {% include 'navbar.html' %}
 
-        <div id="wrapper">
-            {% if user.is_authenticated %}
-                {% if user.coach %}
-                    {% include 'user/coach/coach_sidebar.html' with teams=user.coach.teams.all %}
-                {% endif %}
-            {% endif %}
+        <div class="content-wrapper">
+            <div class="container-fluid">
 
-            <div id="page-content-wrapper">
+                {% block postman_menu %}
+                {% endblock postman_menu %}
+
+                {% block content %}
+                {% endblock content %}
 
                 {% block user_content %}
                 {% endblock user_content %}
 
             </div>
         </div>
-
-{#        {% block calendar_label %}#}
-{#        {% endblock calendar_label %}#}
-{##}
-{#        {% block board_label %}#}
-{#        {% endblock board_label %}#}
-{##}
-{#        {% block message_label %}#}
-{#        {% endblock message_label %}#}
-{##}
-{#        {% block cash_label %}#}
-{#        {% endblock cash_label %}#}
-{##}
-{#        {% block exercises_label %}#}
-{#        {% endblock exercises_label %}#}
-
-
-<!--            <section id="messages-label">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <h2>Messages</h2>
-                            <p class="lead">No unread messages</p>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
-
-    <!--<section id="contact">-->
-      <!--<div class="container">-->
-        <!--<div class="row">-->
-          <!--<div class="col-lg-8 mx-auto">-->
-            <!--<h2>Contact us</h2>-->
-            <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa exercitationem, in, quo totam.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</section>-->
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
@@ -88,15 +51,57 @@
       <!-- /.container -->
     </footer>
 
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
         <!-- Bootstrap core JavaScript -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+{#        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>#}
+
+        <!-- Core plugin JavaScript-->
+        <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+        <!-- Page level plugin JavaScript-->
+        <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+        <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="{% static 'js/sb-admin.min.js' %}"></script>
+
+        <!-- Custom scripts for this page-->
+        <script src="{% static 'js/sb-admin-datatables.min.js' %}"></script>
+        <script src="{% static 'js/sb-admin-charts.min.js' %}"></script>
+
 
         {% block extra_scripts %}
         {% endblock %}
-        <!-- Custom JavaScript for this theme -->
-{#        <script src="{% static "js/scrolling-nav.js" %}"></script>#}
             
     </body>
 </html>

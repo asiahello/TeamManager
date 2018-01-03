@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.7']
 
 LOGIN_REDIRECT_URL = '/'
 
+# DEFAULT_CHARSET = 'utf-8'
+
 # Application definition
 
 INSTALLED_APPS = [

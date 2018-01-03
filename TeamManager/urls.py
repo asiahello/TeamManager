@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^trainings/', include('trainings.urls', namespace='trainings', app_name='trainings')),
     url(r'^team/', include('team.urls', namespace='team', app_name='team')),
 
+    url(r'^swot/', include('swot.urls', namespace='swot', app_name='swot')),
+
     url(r'^', include('user.urls', namespace='user', app_name='user')),
 ]
 

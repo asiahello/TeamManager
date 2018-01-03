@@ -29,44 +29,57 @@
     <hr/>
 
     <div class="row">
-        {% for day in seven_days %}
-            <div class="col">
-
-                <div class="card">
-                    <div class="card-header text-center">
+        <div class="card-deck" style="margin-left: 0px; width: 100%">
+            {% for day in seven_days %}
+                <div class="card bg-light mb-4">
+                    <div class="card-header bg-dark text-white text-center">
                         {{ day | date:'l' }}<br/>
                         {{ day | date:'d.m.Y' }}
                     </div>
-                    {% for training in trainings %}
-                        {% if training.date|date:'d.m.Y' ==  day|date:'d.m.Y' %}
-                            <div class="card-body text-center" style="min-height: 70px">
-                                <a href="#{{ training.id }}" data-toggle="modal">
+                    <ul class="list-group list-group-flush">
+                        {% for training in trainings %}
+                            {% if training.date|date:'d.m.Y' ==  day|date:'d.m.Y' %}
+                                <li class="list-group-item text-center bg-light">
+                                <a class="card-text" href="#{{ training.id }}" data-toggle="modal">
                                     {{ training.date|date:'G:i' }} <br/>
                                     - <br>
                                     {{ training.place }}
                                 </a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </div>
-
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
-    <hr/>
+    <style>
+        @media (min-width: 576px)   { .card-columns { column-count: 1; } }
+        @media (min-width: 768px)   { .card-columns { column-count: 2; } }
+        @media (min-width: 1200px)  { .card-columns { column-count: 3; } }
+    </style>
 
     <div class="row">
         <div class="col-12 text-center">
             <h4 style="display: inline"> Notatki z tego tygodnia </h4>
+            <hr/>
         </div>
 
-        {% for comment in comments %}
-            <div class="col-lg-10 offset-lg-1 col-sm-12">
-                <p class="info">{{ forloop.counter }}. {{ comment.body }} </p>
-            </div>
-        {% endfor %}
-
+        <div class="card-columns" style="margin-left: 15px; padding-right: 50px; width: 100%">
+            {% for comment in comments %}
+                <div class="card p-3 bg-light">
+                    <blockquote class="blockquote mb-0 card-body">
+                        <p>{{ comment.body }}</p>
+                        <footer class="blockquote-footer">
+                            <small class="text-muted">
+                                {{ comment.event.date }} by {{ comment.author }}
+                            </small>
+                        </footer>
+                    </blockquote>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     {% for training in trainings %}

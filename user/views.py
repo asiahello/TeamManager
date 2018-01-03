@@ -7,6 +7,7 @@ from faf.views import MotoricsDetail, get_motorics_tables_for_user
 
 from .forms import PlayerForm
 from .models import Coach, Player
+from swot.models import ANALYSIS_CATEGORIES, SWOT_CATEGORIES, PlayerFactor
 
 
 def user_is_coach_and_has_player(user, player):
@@ -38,17 +39,22 @@ def player_detail(request, player_id):
     template = 'user/player/player_detail.html'
 
     strength_table, endurance_table, velocity_table, coordination_table = get_motorics_tables_for_user(request, player_id)
+    player_factors = PlayerFactor.objects.filter(swot_analysis__owner__id=player_id)
 
     context = {
         'player': player,
+
         'somatics_chart': SomaticsChart(),
         'motorics_factors_tables': MotoricsDetail,
         'strength_table': strength_table,
         'endurance_table': endurance_table,
         'velocity_table': velocity_table,
-        'coordination_table': coordination_table
-    }
+        'coordination_table': coordination_table,
 
+        'analysis_categories': ANALYSIS_CATEGORIES,
+        # 'swot_categories': SWOT_CATEGORIES,
+        'player_factors': player_factors
+    }
     if user_is_coach_and_has_player(user, player):
         # rather return view for coach
         return render(request, template, {'player': player, })
@@ -56,8 +62,6 @@ def player_detail(request, player_id):
         return render(request, template, context)
     else:
         return HttpResponse("<h1> Brak dost?pu </h1>")
-
-    # TODO if user is player
 
 
 def player_new(request):

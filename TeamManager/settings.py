@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'guardian',
     'jchart',
     'postman',
+    'django_extensions',
 ]
 
 MIDDLEWARE_CLASSES = [

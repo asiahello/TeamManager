@@ -1,4 +1,4 @@
 db.sqlite3
-venv_activate.cmd
+regista_venv
 migrations/*
 .idea/*

@@ -24,6 +24,9 @@ class Player(models.Model):
 
 
 class CoachClubManager(models.Manager):
+    '''
+    Manager returns set of data from club related to specific coach
+    '''
     # def get_queryset(self):
     #     return super(CoachClubManager, self).get_queryset()
 

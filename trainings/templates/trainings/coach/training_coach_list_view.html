@@ -58,6 +58,34 @@
 
     </div>
 
+    <style>
+        @media (min-width: 576px)   { .card-columns { column-count: 1; } }
+        @media (min-width: 768px)   { .card-columns { column-count: 2; } }
+        @media (min-width: 1200px)  { .card-columns { column-count: 3; } }
+    </style>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4 style="display: inline"> Notatki z tego tygodnia </h4>
+            <hr/>
+        </div>
+
+        <div class="card-columns" style="margin-left: 15px; padding-right: 50px; width: 100%">
+            {% for comment in comments %}
+                <div class="card p-3 bg-light">
+                    <blockquote class="blockquote mb-0 card-body">
+                        <p>{{ comment.body }}</p>
+                        <footer class="blockquote-footer">
+                            <small class="text-muted">
+                                {{ comment.event.date }} by {{ comment.author }}
+                            </small>
+                        </footer>
+                    </blockquote>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
     {% for training in trainings %}
         {% include "trainings/coach/training_coach_detail_modal.html" with event=training %}
     {% endfor %}

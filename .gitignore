@@ -1,4 +1,6 @@
+__pycache__/
+*.py[cod]
 db.sqlite3
-regista_venv
+env/
 migrations/*
 .idea/*

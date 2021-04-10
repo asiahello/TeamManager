@@ -4,7 +4,8 @@ from datetime import timedelta
 from django.db.models import Q
 from user.models import Coach, Player
 
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -79,7 +80,7 @@ class Event(models.Model):
         related_name='trainings_performed',
         verbose_name="Wykonawca",
         # on_delete=models.SET_NULL,
-        null=True,
+        # null=True,
         blank=True,
         default=""
     )

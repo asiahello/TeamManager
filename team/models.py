@@ -50,7 +50,7 @@ class Team(models.Model):
         'user.Coach',
         verbose_name="trenerzy",
         blank=True,
-        related_name='teams'
+        related_name='teams',
     )
 
     def __str__(self):

@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -168,11 +168,13 @@ STATICFILES_FINDERS = [
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 # ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 

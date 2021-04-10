@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block user_content %}
+
+    <div class="card card-login mx-auto mt-5" xmlns="http://www.w3.org/1999/html">
+        <div class="card-header">Sign out</div>
+        <div class="card-body">
+
+            <form class="logout" method="POST" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+
+                <button type="submit" class="primaryAction btn btn-primary btn-block"><i class="fa fa-sign-out"></i> {% trans 'Sign Out' %}</button>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock user_content %}

@@ -29,6 +29,7 @@ class SwotAnalysis(models.Model):
         Player,
         verbose_name="Autor",
         related_name="swot",
+        on_delete=models.CASCADE,
         null=True
     )
 

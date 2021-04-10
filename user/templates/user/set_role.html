@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block user_content %}
+
+    <div class="row text-center">
+        <div class="card w-50">
+            <div class="card-body">
+                <h5 class="card-title">I am a player</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="{% url 'user:user-view' %}" class="btn btn-primary">I am a player</a>
+            </div>
+        </div>
+
+        <div class="card w-50">
+            <div class="card-body">
+                <h5 class="card-title">I am a coach</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="{% url 'user:user-view' %}" class="btn btn-primary">I am a coach</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock user_content %}

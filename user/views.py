@@ -18,19 +18,21 @@ def user_is_coach_and_has_player(user, player):
 
 
 def user_view(request):
-
-    if not request.user.is_anonymous:
+    if request.user.is_anonymous:
+        return HttpResponseRedirect(reverse('account_login'))
+    else:
         user = request.user
-
         if hasattr(user, 'coach'):
             template = 'user/coach/coach_detail.html'
             return render(request, template, {'user': user, 'role': 'coach', })
         elif hasattr(user, 'player'):
             return redirect('user:player-detail', player_id=user.player.id)
         else:
-            return HttpResponse("<h1> Twoje konto nie ma przypisanej roli </h>")
+            return redirect('user:set-role')
 
-    return HttpResponseRedirect(reverse('account_login'))
+def set_role(request):
+    template = 'user/set_role.html'
+    return render(request, template, {'user': request.user})
 
 
 def player_detail(request, player_id):

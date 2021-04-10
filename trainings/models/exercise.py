@@ -52,7 +52,7 @@ class Exercise(models.Model):
     description = models.TextField(verbose_name="opis", blank=True, default="")
     duration = models.IntegerField(verbose_name="czas trwania", blank=True, default="")
     author = models.ForeignKey(User, related_name='autor', on_delete=models.SET_NULL, null=True, verbose_name="autor", blank=True, default="")
-    age_category = models.ForeignKey(AgeCategory, blank=True, default="")
+    age_category = models.ForeignKey(AgeCategory, blank=True, null=True, default="", on_delete=models.SET_NULL)
 
     # objects = models.Manager()  # default manager
     techniqe = TechniqeCatManager()

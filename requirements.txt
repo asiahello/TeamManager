@@ -35,7 +35,7 @@ pyvenv==0.2.2
 requests==2.20.0
 requests-oauthlib==0.8.0
 six==1.11.0
-sqlparse==0.4.1
+sqlparse==0.4.2
 termcolor==1.1.0
 typing==3.6.2
 urllib3==1.24.2
